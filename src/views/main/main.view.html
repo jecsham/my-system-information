@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>My System Information</title>
+  <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+  <link rel="stylesheet" href="../assets/css/uikit.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body>
+  <section class="uk-flex pointer" uk-sticky>
+    <div class="title-panel draggable">
+    </div>
+    <button id="btnCloser" class="uk-button uk-button-danger uk-button-small">x</button>
+  </section>
+  <div class="uk-padding-large uk-padding-remove-vertical">
+    <div id="render-portion">
+      <p class="uk-text-center uk-margin-top uk-text-bold">My System Information</p>
+      <table class="uk-table uk-table-divider uk-table-small uk-table-middle">
+        <thead>
+          <tr>
+            <th class="uk-table-shrink">Component</th>
+            <th class="uk-table-expand">Description</th>
+          </tr>
+        </thead>
+        <tbody id="table-body">
+        </tbody>
+      </table>
+    </div>
+    <hr>
+    <div class="uk-flex uk-flex-right uk-margin-small">
+      <button id="btnRefresh" class="uk-button uk-button-primary uk-button-small uk-margin-auto-right">Refresh</button>
+      <button id="btnSaveImage" class="uk-button uk-button-default uk-button-small uk-margin-small-right">Save as
+        image</button>
+      <button id="btnSaveTxt" class="uk-button uk-button-default uk-button-small">Save as text</button>
+    </div>
+  </div>
+  <script src="../assets/js/uikit.min.js"></script>
+  <script src="main.view.js"></script>
+</body>
+
+</html>
