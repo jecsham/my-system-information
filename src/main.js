@@ -19,7 +19,7 @@ function createWindow() {
 
   win.loadFile(path.resolve(__dirname + './views/main/main.view.html'));
 
-  win.webContents.openDevTools()
+  // win.webContents.openDevTools()
 
   win.on('closed', () => {
     win = null;
