@@ -26,11 +26,6 @@ code {
   cursor: pointer !important;
 }
 
-.scroll-y {
-  max-height: 450px;
-  overflow-y: auto;
-}
-
 ::-webkit-scrollbar{
 	width: 10px;
 }
