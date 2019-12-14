@@ -4,52 +4,38 @@ const { remote } = require('electron');
 const si = require('systeminformation');
 const html2canvas = require('html2canvas');
 const fs = require('fs');
-let localTableData = localTableDataLoad();
+let tableData = localTableDataLoad();
 const renderPortion = document.getElementById('render-portion');
 
-let tableData = [
-    {
-        title: "CPU",
-        content: []
-    },
-    {
-        title: "GPU",
-        content: []
-    },
-    {
-        title: "RAM",
-        content: []
-    },
-    {
-        title: "DISK",
-        content: []
-    },
-    {
-        title: "MOTHERBOARD",
-        content: []
-    }
-];
 
 let html2canvasOptions = {
     dpi: 384,
     scale: 2,
 }
 
+let dataState = [];
+
 let btnSaveImage = document.getElementById("btnSaveImage");
 let btnSaveTxt = document.getElementById("btnSaveTxt");
+let btnRefresh = document.getElementById("btnRefresh");
 
 
 document.getElementById("btnCloser").addEventListener("click", close);
+btnRefresh.addEventListener("click", refreshData);
 btnSaveImage.addEventListener("click", saveAsImage);
 btnSaveTxt.addEventListener("click", saveAsTxt);
 
 getSysInfo();
 
 function localTableDataLoad() {
-    let data = JSON.parse(fs.readFileSync(path.resolve('src/data/components.json'), 'utf8'));
+    return JSON.parse(fs.readFileSync(path.resolve('src/data/components.json'), 'utf8'));
 }
 function localTableDataSave() {
-    fs.writeFileSync(path.resolve('src/data/components.json'), localTableData)
+    if (dataState.length === tableData.length) {
+        btnRefresh.removeAttribute('disabled');
+        fs.writeFileSync(path.resolve('src/data/components.json'), JSON.stringify(tableData));
+        dataState = [];
+    }
 }
 
 function close() {
@@ -57,7 +43,7 @@ function close() {
 }
 
 function getSysInfo() {
-
+    btnRefresh.setAttribute('disabled', true);
     setCPU(si.cpu);
     setGPU(si.graphics);
     setRAM(si.memLayout);
@@ -66,15 +52,47 @@ function getSysInfo() {
     renderTable();
 }
 
+function refreshData() {
+    tableData = [
+        {
+            title: "CPU",
+            content: []
+        },
+        {
+            title: "GPU",
+            content: []
+        },
+        {
+            title: "RAM",
+            content: []
+        },
+        {
+            title: "DISK",
+            content: []
+        },
+        {
+            title: "MOTHERBOARD",
+            content: []
+        }
+    ]
+    getSysInfo();
+}
+
+function updateState() {
+    dataState.push(true);
+    localTableDataSave();
+}
+
 function setTableContent(contentID, data) {
-    let index = tableData.findIndex(p => p.title == contentID)
-    tableData[index].content = data
+    let index = tableData.findIndex(p => p.title == contentID);
+    tableData[index].content = data;
     renderTable();
 }
 
 async function setCPU(fcpu) {
     let cpu = await fcpu();
     setTableContent('CPU', [`${cpu.manufacturer} ${cpu.brand}`]);
+    updateState();
 }
 
 async function setGPU(fgpu) {
@@ -84,6 +102,7 @@ async function setGPU(fgpu) {
         gcards.push(e.model);
     });
     setTableContent('GPU', gcards);
+    updateState();
 }
 
 async function setRAM(fram) {
@@ -93,6 +112,7 @@ async function setRAM(fram) {
         rams.push(`${prettyBytes(e.size)} ${e.clockSpeed} MHz ${e.manufacturer}`);
     });
     setTableContent('RAM', rams);
+    updateState();
 }
 
 async function setDisk(fdisk) {
@@ -102,11 +122,13 @@ async function setDisk(fdisk) {
         disks.push(`${prettyBytes(e.size)} ${e.type} Disk - ${e.interfaceType} ${e.name}`);
     })
     setTableContent('DISK', disks);
+    updateState();
 }
 
 async function setMotherboard(fmb) {
     let mb = await fmb();
     setTableContent('MOTHERBOARD', [`${mb.manufacturer} - ${mb.model}`]);
+    updateState()
 }
 
 
