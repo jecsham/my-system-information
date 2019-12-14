@@ -30,6 +30,11 @@ let tableData = [
     }
 ];
 
+let html2canvasOptions = {
+    dpi: 384,
+    scale: 2,
+}
+
 let btnSaveImage = document.getElementById("btnSaveImage");
 let btnSaveTxt = document.getElementById("btnSaveTxt");
 
@@ -153,7 +158,12 @@ function renderTable() {
 async function saveAsImage() {
     try {
         btnSaveImage.setAttribute('disabled', true);
-        let canvas = await html2canvas(renderPortion, { dpi: 384, scale: 2, widdth: 770, windowWidth: 770 });
+        let canvasHeightOption = { height: renderPortion.clientHeight };
+        window.scrollTo(0, 0);
+        let canvas = await html2canvas(renderPortion, {
+            ...html2canvasOptions,
+            ...canvasHeightOption
+        });
         let imgBuffer = decodeBase64Image(canvas.toDataURL('image/png'));
         let saveDir = await remote.dialog.showSaveDialog({
             defaultPath: `MY_SYSTEM_INFORMATION_${Date.now()}`,
