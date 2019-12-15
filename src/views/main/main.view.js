@@ -46,9 +46,9 @@ let html2canvasOptions = {
 
 let btnSaveImage = document.getElementById('btnSaveImage');
 let btnSaveTxt = document.getElementById('btnSaveTxt');
-
 let loadingMainText = document.getElementById('loading-main-text');
 let divLoadingMain = document.getElementById('loading-main');
+let textWebsite =  document.getElementById('text-website');
 
 document.getElementById('btnCloser').addEventListener('click', close);
 btnSaveImage.addEventListener('click', saveAsImage);
@@ -190,12 +190,14 @@ function renderTable() {
 async function saveAsImage() {
     try {
         btnSaveImage.setAttribute('disabled', true);
-        let canvasHeightOption = { height: renderPortion.clientHeight };
         window.scrollTo(0, 0);
+        textWebsite.textContent = 'msi.jecsham.com';
+        let canvasHeightOption = { height: renderPortion.clientHeight };
         let canvas = await html2canvas(renderPortion, {
             ...html2canvasOptions,
             ...canvasHeightOption
         });
+        textWebsite.textContent = '';
         let imgBuffer = decodeBase64Image(canvas.toDataURL('image/png'));
         let saveDir = await remote.dialog.showSaveDialog({
             defaultPath: `MY_SYSTEM_INFORMATION_${Date.now()}`,
@@ -216,7 +218,8 @@ async function saveAsTxt() {
 
     try {
         btnSaveTxt.setAttribute('disabled', true);
-        let text = 'MY SYSTEM INFORMATION\nWebsite: https://msi.jecsham.com\n\n'
+
+        let text = 'MY SYSTEM INFORMATION\nhttps://msi.jecsham.com\n\n'
 
         tableData.forEach(e => {
             text += e.title + '\n';
