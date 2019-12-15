@@ -1,39 +1,70 @@
-const path = require('path');
 const prettyBytes = require('pretty-bytes');
 const { remote } = require('electron');
 const si = require('systeminformation');
 const html2canvas = require('html2canvas');
 const fs = require('fs');
-let tableData = localTableDataLoad();
+const Store = require('electron-store');
+const store = new Store();
 const renderPortion = document.getElementById('render-portion');
+let tableData;
+const tableTemplate = [
+    {
+        title: 'CPU',
+        content: []
+    },
+    {
+        title: 'GPU',
+        content: []
+    },
+    {
+        title: 'RAM',
+        content: []
+    },
+    {
+        title: 'DISK',
+        content: []
+    },
+    {
+        title: 'MOTHERBOARD',
+        content: []
+    }
+];
+let dataState = [];
 
+
+if (store.has('components')) {
+    tableData = loadLocalTableData();
+} else {
+    store.set('components', tableTemplate);
+    tableData = loadLocalTableData();
+}
 
 let html2canvasOptions = {
     dpi: 384,
     scale: 2,
 }
 
-let dataState = [];
+let btnSaveImage = document.getElementById('btnSaveImage');
+let btnSaveTxt = document.getElementById('btnSaveTxt');
+let btnRefresh = document.getElementById('btnRefresh');
 
-let btnSaveImage = document.getElementById("btnSaveImage");
-let btnSaveTxt = document.getElementById("btnSaveTxt");
-let btnRefresh = document.getElementById("btnRefresh");
+let divLoadingMain = document.getElementById('loading-main');
 
-
-document.getElementById("btnCloser").addEventListener("click", close);
-btnRefresh.addEventListener("click", refreshData);
-btnSaveImage.addEventListener("click", saveAsImage);
-btnSaveTxt.addEventListener("click", saveAsTxt);
+document.getElementById('btnCloser').addEventListener('click', close);
+btnRefresh.addEventListener('click', refreshData);
+btnSaveImage.addEventListener('click', saveAsImage);
+btnSaveTxt.addEventListener('click', saveAsTxt);
 
 getSysInfo();
 
-function localTableDataLoad() {
-    return JSON.parse(fs.readFileSync(path.resolve('src/data/components.json'), 'utf8'));
+function loadLocalTableData() {
+    return store.get('components');
 }
-function localTableDataSave() {
+function saveLocalTableData() {
     if (dataState.length === tableData.length) {
         btnRefresh.removeAttribute('disabled');
-        fs.writeFileSync(path.resolve('src/data/components.json'), JSON.stringify(tableData));
+        divLoadingMain.removeAttribute('uk-spinner');
+        store.set('components', tableData);
         dataState = [];
     }
 }
@@ -44,6 +75,7 @@ function close() {
 
 function getSysInfo() {
     btnRefresh.setAttribute('disabled', true);
+    divLoadingMain.setAttribute('uk-spinner', 'ratio: 0.6');
     setCPU(si.cpu);
     setGPU(si.graphics);
     setRAM(si.memLayout);
@@ -53,34 +85,13 @@ function getSysInfo() {
 }
 
 function refreshData() {
-    tableData = [
-        {
-            title: "CPU",
-            content: []
-        },
-        {
-            title: "GPU",
-            content: []
-        },
-        {
-            title: "RAM",
-            content: []
-        },
-        {
-            title: "DISK",
-            content: []
-        },
-        {
-            title: "MOTHERBOARD",
-            content: []
-        }
-    ]
+    tableData = tableTemplate;
     getSysInfo();
 }
 
 function updateState() {
     dataState.push(true);
-    localTableDataSave();
+    saveLocalTableData();
 }
 
 function setTableContent(contentID, data) {
