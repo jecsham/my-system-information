@@ -46,12 +46,11 @@ let html2canvasOptions = {
 
 let btnSaveImage = document.getElementById('btnSaveImage');
 let btnSaveTxt = document.getElementById('btnSaveTxt');
-let btnRefresh = document.getElementById('btnRefresh');
 
+let loadingMainText = document.getElementById('loading-main-text');
 let divLoadingMain = document.getElementById('loading-main');
 
 document.getElementById('btnCloser').addEventListener('click', close);
-btnRefresh.addEventListener('click', refreshData);
 btnSaveImage.addEventListener('click', saveAsImage);
 btnSaveTxt.addEventListener('click', saveAsTxt);
 
@@ -62,7 +61,7 @@ function loadLocalTableData() {
 }
 function saveLocalTableData() {
     if (dataState.length === tableData.length) {
-        btnRefresh.removeAttribute('disabled');
+        loadingMainText.textContent = '';
         divLoadingMain.removeAttribute('uk-spinner');
         store.set('components', tableData);
         dataState = [];
@@ -74,7 +73,7 @@ function close() {
 }
 
 function getSysInfo() {
-    btnRefresh.setAttribute('disabled', true);
+    loadingMainText.textContent = 'Refreshing...';
     divLoadingMain.setAttribute('uk-spinner', 'ratio: 0.6');
     setCPU(si.cpu);
     setGPU(si.graphics);
