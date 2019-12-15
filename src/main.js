@@ -1,5 +1,4 @@
 const { app, BrowserWindow } = require('electron');
-const path = require('path');
 
 let win;
 
@@ -17,7 +16,7 @@ function createWindow() {
     frame: false
   });
 
-  win.loadFile(path.resolve(__dirname + './views/main/main.view.html'));
+  win.loadFile('./src/views/main/main.view.html');
 
   // win.webContents.openDevTools()
 
