@@ -1,3 +1,9 @@
+import '../../assets/css/uikit.min.css';
+import '../../assets/css/style.css';
+
+import '../../assets/js/uikit.min.js';
+import '../../assets/js/uikit-icons.min.js';
+
 const prettyBytes = require('pretty-bytes');
 const { remote } = require('electron');
 const si = require('systeminformation');
@@ -81,11 +87,6 @@ function getSysInfo() {
     setDisk(si.diskLayout);
     setMotherboard(si.baseboard);
     renderTable();
-}
-
-function refreshData() {
-    tableData = tableTemplate;
-    getSysInfo();
 }
 
 function updateState() {
@@ -257,3 +258,8 @@ function decodeBase64Image(dataString) {
 
     return response;
 }
+
+(function(){
+    document.getElementById('body').style.display = 'initial'
+    console.log('imported');
+})();
