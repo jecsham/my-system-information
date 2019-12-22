@@ -45,3 +45,7 @@ code {
 ::-webkit-scrollbar-thumb:hover {
   background-color: #9090905d;
 }
+
+.p-n{
+  padding: 5px;
+}

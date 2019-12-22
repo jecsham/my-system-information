@@ -55,6 +55,9 @@ let btnSaveTxt = document.getElementById('btnSaveTxt');
 let loadingMainText = document.getElementById('loading-main-text');
 let divLoadingMain = document.getElementById('loading-main');
 let textWebsite =  document.getElementById('text-website');
+let textTitle = document.getElementById('text-title');
+
+textTitle.textContent = `v${remote.app.getVersion()}`;
 
 document.getElementById('btnCloser').addEventListener('click', close);
 btnSaveImage.addEventListener('click', saveAsImage);
