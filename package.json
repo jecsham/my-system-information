@@ -1,7 +1,7 @@
 {
   "name": "my-system-information",
   "productName": "My System Information",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Basic system information about your PC",
   "main": "./.webpack/main",
   "scripts": {
