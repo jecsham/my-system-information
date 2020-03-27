@@ -57,7 +57,7 @@ let divLoadingMain = document.getElementById('loading-main');
 let textWebsite =  document.getElementById('text-website');
 let textTitle = document.getElementById('text-title');
 
-textTitle.textContent = `v${remote.app.getVersion()}`;
+textTitle.textContent += `v${remote.app.getVersion()}`;
 
 document.getElementById('btnCloser').addEventListener('click', close);
 btnSaveImage.addEventListener('click', saveAsImage);
@@ -195,7 +195,7 @@ async function saveAsImage() {
     try {
         btnSaveImage.setAttribute('disabled', true);
         window.scrollTo(0, 0);
-        textWebsite.textContent = 'msi.jecsham.com';
+        // textWebsite.textContent = 'msi.jecsham.com';
         let canvasHeightOption = { height: renderPortion.clientHeight };
         let canvas = await html2canvas(renderPortion, {
             ...html2canvasOptions,
@@ -223,7 +223,7 @@ async function saveAsTxt() {
     try {
         btnSaveTxt.setAttribute('disabled', true);
 
-        let text = 'MY SYSTEM INFORMATION\nhttps://msi.jecsham.com\n\n'
+        let text = 'MY SYSTEM INFORMATION\n\n'
 
         tableData.forEach(e => {
             text += e.title + '\n';
@@ -264,5 +264,5 @@ function decodeBase64Image(dataString) {
 
 (function(){
     document.getElementById('body').style.display = 'initial'
-    console.log('imported');
+    // console.log('imported');
 })();
