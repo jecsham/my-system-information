@@ -26,26 +26,23 @@ module.exports = {
     ],
   makers: [
     {
+      name: "@electron-forge/maker-zip",
+    },
+    {
       name: "@electron-forge/maker-squirrel",
       config: {
         name: "my-system-information",
         loadingGif: path.resolve(__dirname, 'src/assets/gif/installing.gif'),
       }
     },
-    {
-      name: "@electron-forge/maker-zip",
-      platforms: [
-        "darwin"
-      ]
-    },
-    {
-      name: "@electron-forge/maker-deb",
-      config: {}
-    },
-    {
-      name: "@electron-forge/maker-rpm",
-      config: {}
-    }
+    // {
+    //   name: '@electron-forge/maker-wix',
+    //   config: {
+    //     exe: "my-system-information-setup",
+    //     language: 1033,
+    //     manufacturer: 'Jecsham NRC'
+    //   }
+    // }
   ],
   publisher: [
     {
