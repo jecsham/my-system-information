@@ -1,4 +1,6 @@
 const { app, BrowserWindow } = require('electron');
+if (require('electron-squirrel-startup')) return app.quit();
+const path = require('path');
 
 let win;
 
@@ -11,12 +13,15 @@ function createWindow() {
     maximizable: false,
     minHeight: 500,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY
     },
     frame: false
   });
+  
 
-  win.loadFile('./src/views/main/main.view.html');
+  win.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+
 
   // win.webContents.openDevTools()
 

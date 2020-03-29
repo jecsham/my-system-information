@@ -6,13 +6,16 @@
   <title>My System Information</title>
   <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
   <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-  <link rel="stylesheet" href="../assets/css/uikit.min.css">
-  <link rel="stylesheet" href="../assets/css/style.css">
+  <!-- <link rel="stylesheet" href="../../assets/css/uikit.min.css">
+  <link rel="stylesheet" href="../../assets/css/style.css"> -->
 </head>
 
-<body>
+<body id="body" style="display: none;">
   <section class="uk-flex pointer" uk-sticky>
     <div class="title-panel draggable">
+      <div class="uk-text-small uk-text-muted p-n">
+        <span id="text-title"><a href="https://msi.jecsham.com" target="_blank" rel="noopener noreferrer">msi.jecsham.com</a> </span>
+      </div>
     </div>
     <button id="btnCloser" class="uk-button uk-button-danger uk-button-small default">x</button>
   </section>
@@ -32,8 +35,8 @@
       <table class="uk-table uk-table-divider uk-table-small uk-table-middle uk-margin-remove-top">
         <thead>
           <tr>
-            <th class="uk-table-shrink">Component</th>
-            <th class="uk-table-expand">Description</th>
+            <th></th>
+            <th class="uk-table-expand">Components</th>
           </tr>
         </thead>
         <tbody id="table-body">
@@ -41,9 +44,9 @@
       </table>
     </div>
   </div>
-  <script src="../assets/js/uikit.min.js"></script>
-  <script src="../assets/js/uikit-icons.min.js"></script>
-  <script src="main.view.js"></script>
+  <!-- <script src="../../assets/js/uikit.min.js"></script>
+  <script src="../../assets/js/uikit-icons.min.js"></script> -->
+  <!-- <script src="main.view.js"></script> -->
 </body>
 
 </html>

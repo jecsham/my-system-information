@@ -1,3 +1,9 @@
+import '../../assets/css/uikit.min.css';
+import '../../assets/css/style.css';
+
+import '../../assets/js/uikit.min.js';
+import '../../assets/js/uikit-icons.min.js';
+
 const prettyBytes = require('pretty-bytes');
 const { remote } = require('electron');
 const si = require('systeminformation');
@@ -49,6 +55,9 @@ let btnSaveTxt = document.getElementById('btnSaveTxt');
 let loadingMainText = document.getElementById('loading-main-text');
 let divLoadingMain = document.getElementById('loading-main');
 let textWebsite =  document.getElementById('text-website');
+let textTitle = document.getElementById('text-title');
+
+textTitle.textContent += `v${remote.app.getVersion()}`;
 
 document.getElementById('btnCloser').addEventListener('click', close);
 btnSaveImage.addEventListener('click', saveAsImage);
@@ -81,11 +90,6 @@ function getSysInfo() {
     setDisk(si.diskLayout);
     setMotherboard(si.baseboard);
     renderTable();
-}
-
-function refreshData() {
-    tableData = tableTemplate;
-    getSysInfo();
 }
 
 function updateState() {
@@ -137,7 +141,7 @@ async function setDisk(fdisk) {
 
 async function setMotherboard(fmb) {
     let mb = await fmb();
-    setTableContent('MOTHERBOARD', [`${mb.manufacturer} - ${mb.model}`]);
+    setTableContent('MOTHERBOARD', [`${mb.model} - ${mb.manufacturer}`]);
     updateState()
 }
 
@@ -191,7 +195,7 @@ async function saveAsImage() {
     try {
         btnSaveImage.setAttribute('disabled', true);
         window.scrollTo(0, 0);
-        textWebsite.textContent = 'msi.jecsham.com';
+        // textWebsite.textContent = 'msi.jecsham.com';
         let canvasHeightOption = { height: renderPortion.clientHeight };
         let canvas = await html2canvas(renderPortion, {
             ...html2canvasOptions,
@@ -219,7 +223,7 @@ async function saveAsTxt() {
     try {
         btnSaveTxt.setAttribute('disabled', true);
 
-        let text = 'MY SYSTEM INFORMATION\nhttps://msi.jecsham.com\n\n'
+        let text = 'MY SYSTEM INFORMATION\n\n'
 
         tableData.forEach(e => {
             text += e.title + '\n';
@@ -257,3 +261,8 @@ function decodeBase64Image(dataString) {
 
     return response;
 }
+
+(function(){
+    document.getElementById('body').style.display = 'initial'
+    // console.log('imported');
+})();
