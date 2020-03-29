@@ -141,7 +141,7 @@ async function setDisk(fdisk) {
 
 async function setMotherboard(fmb) {
     let mb = await fmb();
-    setTableContent('MOTHERBOARD', [`${mb.manufacturer} - ${mb.model}`]);
+    setTableContent('MOTHERBOARD', [`${mb.model} - ${mb.manufacturer}`]);
     updateState()
 }
 
